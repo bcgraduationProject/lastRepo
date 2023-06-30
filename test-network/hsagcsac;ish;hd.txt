@@ -1,0 +1,11 @@
+Using organization 2
++ peer channel join -b ./channel-artifacts/mychannel.block
++ res=0
+2023-06-30 20:19:09.279 EEST 0001 INFO [channelCmd] InitCmdFactory -> Endorser and orderer connections initialized
+2023-06-30 20:19:09.329 EEST 0002 INFO [channelCmd] executeJoin -> Successfully submitted proposal to join channel
+Setting anchor peer for org1...
+Using organization 1
+Fetching channel config for channel mychannel
+Using organization 1
+Fetching the most recent configuration block for the channel
++ peer channel fetch config config_block.pb -o orderer.example.com:7050 --ordererTLSHostnameOverride orderer.example.com -c mychannel --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem

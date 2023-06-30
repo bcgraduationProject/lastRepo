@@ -8,23 +8,29 @@ class BloodChainContract extends Contract {
 
         const bloodSamples = [
             {
-                id: "1",
-                bloodType: "A+",
-                donor: "John Doe",
-                status: "Available",
+                id:'0001',
+                donorID:'4190',
+                possessorID:'1234',
+                bloodType:'A+',
+                donationDate:'20/2/2023',
+                expiration:'27/2/2023',
+                status:'Available',
             },
             {
-                id: "2",
-                bloodType: "O-",
-                donor: "Jane Smith",
-                status: "Available",
+                id:'0002',
+                donorID:'7190',
+                possessorID:'9934',
+                bloodType:'B+',
+                donationDate:'20/2/2023',
+                expiration:'27/2/2023',
+                status:'Available',
             },
             // Add more blood samples here...
         ];
 
         for (let i = 0; i < bloodSamples.length; i++) {
-            await ctx.stub.putState(`${i+1}`, Buffer.from(JSON.stringify(bloodSamples[i])));
-            console.log(`Blood sample ${i} initialized.`);
+            await ctx.stub.putState(`${bloodSamples[i].id}`, Buffer.from(JSON.stringify(bloodSamples[i])));
+            console.log(`Blood sample ${bloodSamples[i].id} initialized.`);
         }
 
         console.log('Ledger initialized successfully.');
@@ -40,11 +46,14 @@ class BloodChainContract extends Contract {
         return sampleJSON.toString();
     }
 
-    async createBloodSample(ctx, sampleId, bloodType, donor) {
+    async createBloodSample(ctx, sampleId,donorID,possessorID,bloodType,donationDate,expiration,status) {
         const bloodSample = {
             id: sampleId,
+            donorID,
+            possessorID,
             bloodType,
-            donor,
+            donationDate,
+            expiration,
             status: 'Available',
         };
 
@@ -52,7 +61,7 @@ class BloodChainContract extends Contract {
         console.log(`Blood sample ${sampleId} created successfully.`);
     }
 
-    async updateBloodSampleStatus(ctx, sampleId, newStatus) {
+    async updateBloodSampleStatus(ctx, sampleId, possessorID ,newStatus) {
         const bloodSampleJSON = await ctx.stub.getState(sampleId);
 
         if (!bloodSampleJSON || bloodSampleJSON.length === 0) {
@@ -61,6 +70,7 @@ class BloodChainContract extends Contract {
 
         const bloodSample = JSON.parse(bloodSampleJSON.toString());
         bloodSample.status = newStatus;
+        bloodSample.possessorID=possessorID;
 
         await ctx.stub.putState(sampleId, Buffer.from(JSON.stringify(bloodSample)));
         console.log(`Blood sample ${sampleId} status updated to ${newStatus} successfully.`);

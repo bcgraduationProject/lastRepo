@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#down the network and up it again (restart)
+./network.sh down
+
 sudo chmod +x steps3.sh
 sudo chmod +x networkUp.sh
 
